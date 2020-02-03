@@ -573,7 +573,7 @@ namespace prhlt{
 			vector< vector< cv::Point> > contour_vector = this->contours[i];
 			for( int j = 0; j< contour_vector.size(); j++ ){
 				cv::Mat mask = cv::Mat::zeros(this->image.rows,this->image.cols, CV_8UC1);
-				drawContours(mask,contour_vector,j,cv::Scalar(255), CV_FILLED);
+				drawContours(mask,contour_vector,j,cv::Scalar(255), cv::FILLED);
 				//cv::Mat inv_mask(this->image.rows,this->image.cols, CV_8UC1,cv::Scalar(255));
 				//drawContours(inv_mask,contour_vector,j,cv::Scalar(0), CV_FILLED);
 				//cv::Scalar mean,stdev;
@@ -612,7 +612,7 @@ namespace prhlt{
 			for( int j = 0; j< contour_vector.size(); j++ ){
 			
 				cv::Mat mask = cv::Mat::zeros(this->image.rows,this->image.cols, CV_8UC1);
-				drawContours(mask,contour_vector,j,cv::Scalar(255), CV_FILLED);
+				drawContours(mask,contour_vector,j,cv::Scalar(255), cv::FILLED);
 				cv::Mat transparent( this->image.rows,this->image.cols, CV_8UC4);
 				cv::Mat srcImg[] = {this->image,mask};
 				int from_to[] = { 0,0, 1,1, 2,2, 3,3 };

@@ -25,7 +25,7 @@ namespace prhlt {
 
         Algorithm_KMeans::Algorithm_KMeans(cv::Mat &ex_data, cv::Mat &ex_image){    
             this->data= cv::Mat(ex_data.cols,ex_data.rows,CV_32F);    
-            cvtColor(ex_image,this->image, CV_GRAY2RGB);
+            cvtColor(ex_image,this->image, cv::COLOR_GRAY2RGB);
             ex_data.convertTo(this->data,CV_32F);
             this->data_labels = cv::Mat(1,ex_data.rows,CV_32F,0.0);           
         }

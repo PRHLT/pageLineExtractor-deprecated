@@ -74,7 +74,7 @@ namespace prhlt {
         release_internal_images();
         if(exists(file_path)){
             LOG4CXX_INFO(this->logger,"<<LOADING IMAGE FROM FILE>>");
-            this->image=cv::imread(file_path,CV_LOAD_IMAGE_COLOR);//   CV_LOAD_IMAGE_GRAYSCALE);CV_LOAD_IMAGE_COLOR
+            this->image=cv::imread(file_path,cv::IMREAD_COLOR);//   CV_LOAD_IMAGE_GRAYSCALE);CV_LOAD_IMAGE_COLOR
             initialize_greyscale_image();
             this->image_loaded=true;
         }
@@ -101,7 +101,7 @@ namespace prhlt {
         if(this->image.channels()>1){
             this->greyscale_image = cv::Mat::zeros(this->image.rows,this->image.cols,CV_8UC1);
             //this->greyscale_image = cv::Mat(this->image.rows,this->image.cols,CV_8U,0);
-            cvtColor(this->image, this->greyscale_image, CV_RGB2GRAY);
+            cvtColor(this->image, this->greyscale_image, cv::COLOR_RGB2GRAY);
         }
         else
             this->greyscale_image= this->image.clone();
@@ -249,7 +249,7 @@ namespace prhlt {
     }
     
     void Image::draw_randomed_colored_region(vector<cv::Point2d> points){
-        CvRNG rng;
+        cv::RNG rng;
         int icolor = (unsigned) rng;
         for(int i = 0; i < points.size();i++){
             LOG4CXX_DEBUG(this->logger,"Painting :" << points[i].x << " - " << points[i].y);
@@ -270,8 +270,8 @@ namespace prhlt {
 	}
     
     void Image::draw_randomed_colored_polyline(vector<cv::Point2d> points){
-        CvRNG rng;
-        cv::Scalar color = random_color(&rng);
+        cv::RNG rng;
+        cv::Scalar color = random_color(rng);
         if(points.size()<2){
             LOG4CXX_ERROR(this->logger,"Image: attempted to draw a polyline with less than two points");
         }
@@ -295,9 +295,9 @@ namespace prhlt {
     }
     
     void Image::draw_rectangles(rectangules_list rec_list){
-        CvRNG rng;
+        cv::RNG rng;
         BOOST_FOREACH( cv::Rect &rec, rec_list ){
-            draw_rectangle(rec,random_color(&rng));
+            draw_rectangle(rec,random_color(rng));
 			  }
 		}
 		
@@ -349,8 +349,8 @@ namespace prhlt {
         return cv::Mat();
     }
     
-    cv::Scalar Image::random_color(CvRNG *rng){
-        int icolor = cvRandInt(rng);
+    cv::Scalar Image::random_color(cv::RNG &rng){
+        int icolor = (unsigned) rng;
         return cv::Scalar( icolor&255, (icolor>>8)&255, (icolor>>16)&255 );
     }
 }

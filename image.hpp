@@ -82,7 +82,7 @@ namespace prhlt {
             cv::Mat binary_image;
             int binarization_threshold;
             log4cxx::LoggerPtr logger;
-            cv::Scalar random_color(CvRNG *rng);
+            cv::Scalar random_color(cv::RNG &rng);
             void initialize_greyscale_image();
             void initialize_binary_image_matrixes();
             void release_internal_images();

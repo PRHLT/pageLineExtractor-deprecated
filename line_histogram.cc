@@ -49,7 +49,7 @@ namespace prhlt {
 		this->binarization_threshold = 127;
 		if(ex_image.channels()>1){
 		  this->image = cv::Mat(ex_image.rows,ex_image.cols,CV_8U,0);
-			cvtColor(ex_image, this->image, CV_RGB2GRAY);
+			cvtColor(ex_image, this->image, cv::COLOR_RGB2GRAY);
 		}
     else
         this->image= ex_image.clone();
@@ -68,7 +68,7 @@ namespace prhlt {
 		this->image = cv::Mat(ex_image.rows,ex_image.cols,CV_8U,0);
 		if(ex_image.channels()>1){
 		  this->image = cv::Mat(ex_image.rows,ex_image.cols,CV_8U,0);
-			cvtColor(ex_image, this->image, CV_RGB2GRAY);
+			cvtColor(ex_image, this->image, cv::COLOR_RGB2GRAY);
 		}
     else
         this->image= ex_image.clone();
@@ -234,7 +234,7 @@ namespace prhlt {
 		cv::namedWindow("Histogram Image");
 		cv::imshow("Histogram Image",resized);
 	    cv::waitKey(100000);
-		cvDestroyWindow( "Histogram Image" );
+        cv::destroyWindow( "Histogram Image" );
 	}
 
 	void Line_Histogram::initialize_line_histogram(string mode){
