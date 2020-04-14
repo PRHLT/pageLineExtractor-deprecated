@@ -665,13 +665,11 @@ namespace prhlt{
 					int h = this->paragraph_order[k][j].second;
 					stringstream png_file_name;//create a stringstream
                     //"_"<< this->region_nodes[k].attribute("id").value() << "_" << this->line_nodes[k][h].attribute("id").value()<<
-					png_file_name << base_file_name << "_" << (i+1 < 10 ? "0" : "") << i+1 << "_" << (j+1 < 10 ? "0" : "") << j+1<< "_"<< this->region_nodes[k].attribute("id").value() << "_" << this->line_nodes[k][h].attribute("id").value()<<".png";
-					//png_file_name << base_file_name << "_" << (i+1 < 10 ? "0" : "") << i+1 << "_" << (j+1 < 10 ? "0" : "") << j+1<< ".png";
+					png_file_name << base_file_name << "." << this->line_nodes[k][h].attribute("id").value()<<".png";
+					//png_file_name << base_file_name << "_" << (i+1 < 10 ? "0" : "") << i+1 << "_" << (j+1 < 10 ? "0" : "") << j+1<< "_"<< this->region_nodes[k].attribute("id").value() << "_" << this->line_nodes[k][h].attribute("id").value()<<".png";
 					stringstream txt_file_name;//create a stringstream
-					txt_file_name << base_file_name << "_" << (i+1 < 10 ? "0" : "") << i+1 << "_" << (j+1 < 10 ? "0" : "") << j+1<< "_"<< this->region_nodes[k].attribute("id").value() << "_" << this->line_nodes[k][h].attribute("id").value()<<".txt";
-					//txt_file_name << base_file_name << "_" << (i+1 < 10 ? "0" : "") << i+1 << "_" << (j+1 < 10 ? "0" : "") << j+1<< ".txt";
-             //cv::Mat tmp_image = cv::Mat(this->line_images[i][h].rows,this->line_images[i][h].cols,CV_8U,0);
-             //cvtColor(this->line_images[i][h], tmp_image, CV_RGB2GRAY);
+					txt_file_name << base_file_name << "." << this->line_nodes[k][h].attribute("id").value()<<".txt";
+					//txt_file_name << base_file_name << "_" << (i+1 < 10 ? "0" : "") << i+1 << "_" << (j+1 < 10 ? "0" : "") << j+1<< "_"<< this->region_nodes[k].attribute("id").value() << "_" << this->line_nodes[k][h].attribute("id").value()<<".txt";
 					LOG4CXX_INFO(this->logger," File : " << png_file_name.str());
              		cv::imwrite(png_file_name.str(),this->line_images[k][h]);
              		string line_transcription = (string) this->line_nodes[k][h].child("TextEquiv").child_value("Unicode");
