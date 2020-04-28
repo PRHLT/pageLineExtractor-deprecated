@@ -661,7 +661,7 @@ namespace prhlt{
 				int k = this->region_order[i].second;
 				for(int j = 0; j < this->line_images[k].size(); j++){
 					if(j != this->paragraph_order[k][j].second)
-						LOG4CXX_ERROR(this->logger," Out of place line >> " << j  << " for " << this->paragraph_order[k][j].second);
+						LOG4CXX_INFO(this->logger," Out of place line >> " << j  << " for " << this->paragraph_order[k][j].second);
 					int h = this->paragraph_order[k][j].second;
 					stringstream png_file_name;//create a stringstream
                     //"_"<< this->region_nodes[k].attribute("id").value() << "_" << this->line_nodes[k][h].attribute("id").value()<<
