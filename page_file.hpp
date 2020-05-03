@@ -42,7 +42,7 @@ namespace prhlt {
 			void add_loaded_baselines(int correction_factor);
 			vector <vector< vector <cv::Point> > > get_sorted_baselines();
 			void clip_baselines();
-
+            void fix_contours(); 
             void print_old_format();
 			void generate_countour_from_baseline(int descendent_offset, int ascendant_offset );
 			void generate_countour_from_baseline(string line_id,int descendent_offset, int ascendant_offset );
@@ -83,6 +83,7 @@ namespace prhlt {
 			void calculate_line_order();
 			void calculate_region_order();
 			vector <cv::Point2f> extract_points_from_string(string point_string);
+			vector <cv::Point> extract_int_points_from_string(string point_string);
 			string point_vectors_to_string(vector <cv::Point> ex_points );
 			vector<cv::Point> sort_points_horizontally(vector<cv::Point> temp_baseline);
 			//DESTRUCTOR HELPER FUNCTIONS

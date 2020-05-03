@@ -59,8 +59,8 @@ void setVerbosity(int verb){
 
 bool areValidOptions(po::variables_map vm){
 	
-	if (  vm["operation_mode"].as<string>() != "LIST" and  vm["operation_mode"].as<string>() != "FILE"){
-		LOG4CXX_ERROR(logger,"The operation method specified: \"" << vm["operation_mode"].as<string>() << "\" is not valid. Operation method must be either DISPLAY or FILE");
+	if (  vm["operation_mode"].as<string>() != "FIX" and  vm["operation_mode"].as<string>() != "FILE"){
+		LOG4CXX_ERROR(logger,"The operation method specified: \"" << vm["operation_mode"].as<string>() << "\" is not valid. Operation method must be either FIX or FILE");
 		return false;
 	}
 	if (  !exists(vm["input_image"].as<string>())){
@@ -84,7 +84,6 @@ void displayInputedValues(po::variables_map vm){
 	LOG4CXX_INFO(logger,"<<INPUTED PARAMETERS>>");
 	LOG4CXX_INFO(logger,"Input image file       : " << vm["input_image"].as<string>());
 	LOG4CXX_INFO(logger,"Page file              : " << vm["page_file"].as<string>());
-	//LOG4CXX_INFO(logger,"Transcription file     : " << vm["transcription_file"].as<string>());
 	LOG4CXX_INFO(logger,"Operation mode         : " << vm["operation_mode"].as<string>());
 	LOG4CXX_INFO(logger,"Verbosity              : " << vm["verbosity"].as<int>());	
 }
@@ -100,7 +99,6 @@ int main(int argc, char **argv){
 		( "help,h", "Generates this help message" )
 		( "input_image,i", po::value<string>(&input_image)->default_value("image.jpg"),"Input image from which to extract the line images (by default ./image.jpg)" )
 		( "page_file,l", po::value<string>(&page_file)->default_value("page.xml"),"Page file path (by default ./page.xml)" )
-//		( "transcription_file,t", po::value<string>(&transcription_file)->default_value("trans.txt"),"Transcription file path (by default ./trans.txt)" )
 		( "operation_mode,m", po::value<string>(&operation_mode)->default_value("DISPLAY"), "Operation mode of the command line tool, list printing out the list of line regions (LIST) or save the line images to (FILE) (default value is LIST)")
 		( "verbosity,v", po::value<int>(&verbosity)->default_value(0), "\% Verbosity os messages during execution [0-2]");
 	po::variables_map vm;
@@ -121,18 +119,12 @@ int main(int argc, char **argv){
 			prhlt::Page_File page(vm["page_file"].as<string>());
 			page.load_image(temp);
         
-       // prhlt::Points_File points_file_instance(vm["region_file"].as<string>());        
         
-        //output_image.load_from_matrix(temp);
-        if(vm["operation_mode"].as<string>()=="LIST"){
-				page.print_file_info();
-                //page.load_transcription_file(vm["transcription_file"].as<string>());
-				//page.add_loaded_transcription_text();
-		        //LOG4CXX_INFO(logger,"<<SAVING GLOBAL IMAGE>>");
-				//page.display_contours_and_boxes();
-		        //LOG4CXX_INFO(logger,"<<DONE SAVING GLOBAL IMAGE>>");
-				//page.print_old_format();
-				//page.save_xml("output.xml");
+        if(vm["operation_mode"].as<string>()=="FIX"){
+		        LOG4CXX_INFO(logger,"<<FIXING CONTOURS>>");
+                page.fix_contours(); 
+		        LOG4CXX_INFO(logger,"<<FIXING CONTOURS>>");
+				page.save_xml(vm["page_file"].as<string>());
         }else{
             LOG4CXX_INFO(logger,"<<SAVING LINE IMAGES TO FILE>>");
             page.extract_line_images();

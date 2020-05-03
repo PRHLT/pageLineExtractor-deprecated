@@ -107,7 +107,37 @@ namespace prhlt{
 		}
 */
 	}
-	
+
+    void Page_File::fix_contours(){
+		
+        pugi::xml_node page = this->doc.child("PcGts").child("Page");
+        int page_width = std::stoi(page.attribute("imageWidth").value());
+        int page_height = std::stoi(page.attribute("imageHeight").value());
+
+		for(int j = 0 ; j < this->line_nodes.size(); j++){
+			for(int i = 0 ; i < this->line_nodes[j].size(); i++){
+				
+                
+                //GET CONTOUR AS VECTOR
+                string point_string = this->line_nodes[j][i].child("Coords").attribute("points").value();
+                vector <cv::Point> tmp_points = extract_int_points_from_string(point_string); 
+
+                //REVIEW AND FIX POINTS IN VECTOR
+                
+				 for(int p=0; p < tmp_points.size(); p++){
+                     tmp_points[p].x = tmp_points[p].x >= page_width ? page_width -1 : tmp_points[p].x ;
+                     tmp_points[p].y = tmp_points[p].y >= page_height ? page_height -1 : tmp_points[p].y ;
+				 }
+
+                //RELOAD AGAIN INTO NODES
+
+				 pugi::xml_attribute line_points_attr = this->line_nodes[j][i].child("Coords").attribute("points");
+				 line_points_attr.set_value(point_vectors_to_string(tmp_points).c_str());
+			}
+		}
+    }
+
+
 	vector<vector<cv::Point2f> > Page_File::get_regions(){
 		vector<vector<cv::Point2f> > regions;
 		pugi::xml_node page = this->doc.child("PcGts").child("Page");	
@@ -126,6 +156,24 @@ namespace prhlt{
 		}
 		return regions;
 
+	}
+	vector <cv::Point> Page_File::extract_int_points_from_string(string point_string){
+				LOG4CXX_DEBUG(this->logger,"Coords are " << point_string);
+        		std::vector<std::string> string_values;
+				boost::split(string_values,point_string,boost::is_any_of(" "),boost::token_compress_on);
+				vector <cv::Point>  tmp_region;
+				for(int p = 0; p < string_values.size();p++){
+					std::vector<std::string> string_point;
+				   	LOG4CXX_DEBUG(this->logger,"\t \t String point " << string_values[p]);
+					boost::split(string_point,string_values[p],boost::is_any_of(","),boost::token_compress_on);
+					int x;
+					istringstream(string_point[0]) >> x;
+					int y; 
+					istringstream(string_point[1]) >> y;
+				   LOG4CXX_DEBUG(this->logger,"\t \t x " << x << " y " << y);
+				   tmp_region.push_back(cv::Point(x,y));
+				}
+				return tmp_region;
 	}
 
 	vector <cv::Point2f> Page_File::extract_points_from_string(string point_string){
