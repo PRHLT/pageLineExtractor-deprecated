@@ -126,7 +126,9 @@ namespace prhlt{
                 
 				 for(int p=0; p < tmp_points.size(); p++){
                      tmp_points[p].x = tmp_points[p].x >= page_width ? page_width -1 : tmp_points[p].x ;
+                     tmp_points[p].x = tmp_points[p].x <= 0 ? 1 : tmp_points[p].x ;
                      tmp_points[p].y = tmp_points[p].y >= page_height ? page_height -1 : tmp_points[p].y ;
+                     tmp_points[p].y = tmp_points[p].y <= 0 ? 1 : tmp_points[p].y ;
 				 }
 
                 //RELOAD AGAIN INTO NODES
